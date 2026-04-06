@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('{% static "images/6.jpg" %}') center/cover no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .order-form select,
+        .order-form input {
+            width: 100%;
+            max-width: 500px;
+        }
+        select,
+        input[type="number"] {
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        button,
+        .back-button {
+            width: 48%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button {
+            border: none;
+            background-color: #2e8b57;
+            color: white;
+        }
+        button:hover {
+            background-color: #228b45;
+        }
+        .field-group {
+            width: 100%;
+            text-align: left;
+        }
+        .field-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #2e8b57;
+            background: white;
+            color: #2e8b57;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #e6f4ea;
+        }
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.98rem;
+            margin-top: 10px;
+        }
+        .page-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 Place Your Water Order</h1>
+        <p class="description">Choose your water type and enter the quantity, then proceed to payment.</p>
+
+        <form method="POST" class="order-form">
+            {% csrf_token %}
+            <div class="field-group">
+                <label for="water_type">Select Water Type</label>
+                <select name="water_type" id="water_type" required>
+                    <option value="normal">Normal Water (Tap 1)</option>
+                    <option value="cold">Cold Water (Tap 2)</option>
+                    <option value="hot">Hot Water (Tap 3)</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="liters">Quantity (liters)</label>
+                <input type="number" id="liters" name="liters" placeholder="1-100 liters" required min="1" max="100">
+            </div>
+
+            <div class="action-buttons">
+                <a href="/" class="back-button">Back</a>
+                <button type="submit">Proceed</button>
+            </div>
+        </form>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

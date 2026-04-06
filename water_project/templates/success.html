@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('{% static "images/11.webp" %}') center/cover no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .success-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .order-details {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e4e7ec;
+            border-radius: 12px;
+            max-width: 520px;
+            color: #333;
+            text-align: left;
+        }
+        .order-details p {
+            margin: 10px 0;
+        }
+        .home-button {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            background-color: #2e8b57;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .home-button:hover {
+            background-color: #228b45;
+        }
+        .page-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Tap and Water Dispensing Styles */
+        .dispense-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: #f0f8ff;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .tap-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 40px;
+            margin: 20px 0;
+            min-height: 200px;
+        }
+
+        .tap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .tap-label {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .tap-icon {
+            width: 50px;
+            height: 80px;
+            background: linear-gradient(90deg, #888, #ddd, #888);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .tap-spout {
+            width: 12px;
+            height: 20px;
+            background: #888;
+            border-radius: 0 0 4px 4px;
+            position: absolute;
+            bottom: -15px;
+            right: 8px;
+        }
+
+        .water-stream {
+            width: 6px;
+            height: 0;
+            background: linear-gradient(180deg, #87ceeb, #4a90c7);
+            margin-top: 8px;
+            border-radius: 3px;
+            animation: none;
+        }
+
+        .water-stream.active {
+            animation: dispensing 1s ease-in-out infinite;
+        }
+
+        @keyframes dispensing {
+            0% {
+                height: 0;
+                opacity: 1;
+            }
+            50% {
+                height: 60px;
+                opacity: 1;
+            }
+            100% {
+                height: 80px;
+                opacity: 0;
+            }
+        }
+
+        .tap-container .tap h4 {
+            margin: 10px 0;
+            color: #2e8b57;
+        }
+
+        .tap-container .tap.active .tap-icon {
+            background: linear-gradient(90deg, #1a7a3a, #4a9d6f, #1a7a3a);
+            box-shadow: 0 0 15px rgba(46, 139, 87, 0.5);
+        }
+
+        .dispensing-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e8b57;
+            margin-top: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 Payment Successful ✅</h1>
+        <p class="description">Your order is confirmed and will be dispensed shortly.</p>
+
+        <div class="success-card">
+            <div class="order-details">
+                <p><strong>Water Type:</strong> {{ order.get_water_type_display }}</p>
+                <p><strong>Tap:</strong> {{ order.tap_id }}</p>
+                <p><strong>Liters:</strong> {{ order.liters_requested }}</p>
+                <p><strong>Total Paid:</strong> ₹{{ order.liters_requested }}</p>
+            </div>
+
+            <!-- Tap Dispensing Section -->
+            <div class="dispense-section">
+                <h3>Water Dispensing in Progress...</h3>
+                <div class="tap-container">
+                    <!-- Tap 1 - Normal Water -->
+                    <div class="tap {% if order.tap_id == 'tap_1' %}active{% endif %}">
+                        <h4>Normal Water</h4>
+                        <div class="tap-icon">
+                            <div class="tap-spout"></div>
+                            <div class="water-stream {% if order.tap_id == 'tap_1' %}active{% endif %}"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tap 2 - Cold Water -->
+                    <div class="tap {% if order.tap_id == 'tap_2' %}active{% endif %}">
+                        <h4>Cold Water</h4>
+                        <div class="tap-icon">
+                            <div class="tap-spout"></div>
+                            <div class="water-stream {% if order.tap_id == 'tap_2' %}active{% endif %}"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tap 3 - Hot Water -->
+                    <div class="tap {% if order.tap_id == 'tap_3' %}active{% endif %}">
+                        <h4>Hot Water</h4>
+                        <div class="tap-icon">
+                            <div class="tap-spout"></div>
+                            <div class="water-stream {% if order.tap_id == 'tap_3' %}active{% endif %}"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="dispensing-message">💧 {{ order.liters_requested }} Liters Dispensing...</p>
+            </div>
+            <a href="/" class="home-button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart water dispenser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f8ff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .welcome-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        h1 {
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #2e8b57;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #228b45;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 Welcome to Smart Water Dispensing System</h1>
+
+        {% load static %}
+        <img src="{% static 'images/1.png' %}" alt="Smart Water Dispensing system" class="welcome-image">
+
+        <p class="description">
+            Get fresh, clean water delivered right to your doorstep. Order water conveniently through our online system.
+        </p>
+
+        <a href="/order/" class="btn">Order Water Now</a>
+    </div>
+</body>
+</html>

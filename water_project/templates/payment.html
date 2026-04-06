@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('{% static "images/3.jpeg" %}') center/cover no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .payment-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .payment-details {
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+        .payment-details span {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .qr-container {
+            margin-top: 25px;
+        }
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+        .action-buttons > a,
+        .action-buttons > form {
+            margin: 0;
+        }
+        .action-buttons > form {
+            width: 100%;
+        }
+        .action-buttons > a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #2e8b57;
+            background: white;
+            color: #2e8b57;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .action-buttons > a.back-button {
+            background: transparent;
+            border: none;
+            padding: 0;
+            justify-content: flex-start;
+            color: #2e8b57;
+            font-weight: 600;
+        }
+        .action-buttons > a.back-button:hover {
+            background: transparent;
+            text-decoration: underline;
+        }
+        .action-buttons > a:hover {
+            background-color: #e6f4ea;
+        }
+        .action-buttons > form button {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: none;
+            background-color: #2e8b57;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .action-buttons > form button:hover {
+            background-color: #228b45;
+        }
+        .qr-container img {
+            width: 250px;
+            max-width: 100%;
+            border-radius: 18px;
+            border: 4px solid rgba(0,0,0,0.08);
+            background: white;
+        }
+        .pay-button {
+            margin-top: 20px;
+        }
+        .page-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💧 Payment</h1>
+        <p class="description">Review your order details and complete payment by scanning the QR code.</p>
+
+        <div class="payment-card">
+            <div class="payment-details">
+                <span><strong>Water Type:</strong> {{ order.get_water_type_display }}</span>
+                <span><strong>Tap:</strong> {{ order.tap_id }}</span>
+                <span><strong>Liters:</strong> {{ order.liters_requested }}</span>
+                <span><strong>Total:</strong> ₹{{ order.liters_requested }}</span>
+            </div>
+
+            {% if qr_code %}
+                <div class="qr-container">
+                    <h2>Scan to Pay</h2>
+                    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+                    <p id="payment-status" style="margin-top: 20px; font-size: 14px; color: #666;">
+                        <span id="status-text">⏳ Checking payment...</span>
+                    </p>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="/order/" class="back-button">&lt; Back</a>
+                </div>
+
+                <script>
+                    const statusText = document.getElementById('status-text');
+                    statusText.textContent = '⏳ Checking payment...';
+
+                    setTimeout(function() {
+                        window.location.href = "/success/{{ order.id }}/";
+                    }, 5000);
+                </script>
+            {% else %}
+                <div class="action-buttons">
+                    <a href="/order/" class="back-button">&lt; Back</a>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Generate QR</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
