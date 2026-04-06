@@ -93,6 +93,7 @@ python manage.py runserver
 #Open in browser:
 
 http://127.0.0.1:8000/
+
 🔄 System Workflow
 User visits the website and places a water order
 System calculates total amount based on liters
