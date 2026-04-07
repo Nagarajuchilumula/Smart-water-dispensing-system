@@ -1,4 +1,4 @@
-# 💧 Smart water dispensing System
+💧 Smart water dispensing System
 
 The Smart water dispensing System is a smart web-based application developed using Django (Python) that allows users to conveniently order water and make secure digital payments through QR code scanning. This project aims to automate the water dispensing process and reduce manual effort by integrating web technology with digital payments and future IoT support.
 
@@ -8,7 +8,7 @@ The system is designed with scalability in mind and includes API endpoints that 
 
 ---
 
-## 🚀 Features
+Features
 
 - Online water ordering based on required quantity
 - Dynamic QR code generation for UPI payments
@@ -19,7 +19,7 @@ The system is designed with scalability in mind and includes API endpoints that 
 
 ---
 
-## 🛠️ Technologies Used
+Technologies Used
 
 - Backend: Django (Python)
 - Frontend: HTML, CSS
@@ -29,7 +29,7 @@ The system is designed with scalability in mind and includes API endpoints that 
 
 ---
 
-## 📂 Project Structure
+Project Structure
 
 Water_project/
 │
@@ -54,7 +54,7 @@ Water_project/
 ├── static/
 │ └── images/
 
-## ⚙️ Installation & Setup
+Installation & Setup
 
 Clone the repository and navigate into the project directory:
 
@@ -67,11 +67,11 @@ Create and activate a virtual environment:
 python -m venv venv
 venv\Scripts\activate
 
-#Install required dependencies:
+Install required dependencies:
 
 pip install django djangorestframework pymysql qrcode[pil]
 
-#Configure MySQL database in settings.py:
+Configure MySQL database in settings.py:
 
 DATABASES = {
     'default': {
@@ -84,7 +84,7 @@ DATABASES = {
     }
 }
 
-#Apply migrations and start the server:
+Apply migrations and start the server:
 
 python manage.py makemigrations
 python manage.py migrate
@@ -94,7 +94,7 @@ python manage.py runserver
 
 http://127.0.0.1:8000/
 
-🔄 System Workflow
+System Workflow
 User visits the website and places a water order
 System calculates total amount based on liters
 QR code is generated for payment
